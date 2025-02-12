@@ -3,8 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Ko‑fi OAuth Callback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f4f4f4;
+    }
+    #status {
+      font-size: 1.2em;
+      color: #333;
+    }
+  </style>
   <script>
-    // Función para parsear el fragmento de la URL (después del #)
+    // Función para parsear el fragmento de la URL (lo que viene después de "#")
     function parseFragment() {
       var fragment = window.location.hash.substring(1);
       var params = {};
@@ -18,6 +30,7 @@
     }
     window.onload = function() {
       var params = parseFragment();
+      console.log("Webhook: Parámetros recibidos:", params);
       if (params.access_token) {
         // Envía el access token a la ventana que lo abrió (el juego)
         if (window.opener) {
@@ -34,6 +47,6 @@
 </head>
 <body>
   <h1>Ko‑fi OAuth Callback</h1>
-  <p id="status">Procesando...</p>
+  <p id="status">Procesando autenticación...</p>
 </body>
 </html>
