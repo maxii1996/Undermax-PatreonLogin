@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ko‑fi OAuth Callback</title>
+  <script>
+    // Función para parsear el fragmento de la URL (después del #)
+    function parseFragment() {
+      var fragment = window.location.hash.substring(1);
+      var params = {};
+      fragment.split('&').forEach(function(part) {
+        var item = part.split('=');
+        if (item[0]) {
+          params[item[0]] = decodeURIComponent(item[1] || "");
+        }
+      });
+      return params;
+    }
+    window.onload = function() {
+      var params = parseFragment();
+      if (params.access_token) {
+        // Envía el access token a la ventana que lo abrió (el juego)
+        if (window.opener) {
+          window.opener.postMessage({ accessToken: params.access_token }, "*");
+          document.getElementById("status").innerText = "Login exitoso. Puedes cerrar esta ventana.";
+        } else {
+          document.getElementById("status").innerText = "No se encontró la ventana de origen.";
+        }
+      } else {
+        document.getElementById("status").innerText = "No se encontró access token.";
+      }
+    };
+  </script>
+</head>
+<body>
+  <h1>Ko‑fi OAuth Callback</h1>
+  <p id="status">Procesando...</p>
+</body>
+</html>
