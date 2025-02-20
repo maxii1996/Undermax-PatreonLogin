@@ -11,19 +11,20 @@
 <body>
     <h1>Patreon Login Successful</h1>
     <div id="message">Processing...</div>
-    <script>
-        function getQueryParameter(name) {
-            var params = new URLSearchParams(window.location.search);
-            return params.get(name);
-        }
-        var code = getQueryParameter("code");
-        if (code) {
-            window.opener.postMessage({ type: "patreon_auth", code: code }, "*");
-            document.getElementById("message").innerText = "Authentication successful. You may close this window.";
-            setTimeout(function() { window.close(); }, 3000);
-        } else {
-            document.getElementById("message").innerText = "Error: No authentication code found.";
-        }
-    </script>
+<script>
+    function getQueryParameter(name) {
+        var params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    }
+    var code = getQueryParameter("code");
+    if (code) {
+        window.opener.postMessage({ type: "patreon_auth", code: code }, "*");
+        document.getElementById("message").innerText = "Authentication successful. You may close this window.";
+        setTimeout(function() { window.close(); }, 3000);
+    } else {
+        document.getElementById("message").innerText = "Error: No authentication code found.";
+    }
+</script>
+
 </body>
 </html>
