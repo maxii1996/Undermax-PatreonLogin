@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Patreon OAuth Redirect</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #222; color: #fff; text-align: center; padding-top: 50px; }
-        #message { margin-top: 20px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Patreon OAuth Redirect</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #222; color: #fff; text-align: center; padding-top: 50px; }
+    #message { margin-top: 20px; }
+  </style>
 </head>
 <body>
-    <h1>Patreon Login Successful</h1>
-    <div id="message">Processing...</div>
-<script>
+  <h1>Patreon Login Successful</h1>
+  <div id="message">Processing...</div>
+  <script>
     function getQueryParameter(name) {
-        var params = new URLSearchParams(window.location.search);
-        return params.get(name);
+      var params = new URLSearchParams(window.location.search);
+      return params.get(name);
     }
     var code = getQueryParameter("code");
     if (code) {
+      if (window.opener && typeof window.opener.postMessage === "function") {
         window.opener.postMessage({ type: "patreon_auth", code: code }, "*");
         document.getElementById("message").innerText = "Authentication successful. You may close this window.";
         setTimeout(function() { window.close(); }, 3000);
+      } else {
+        // Si window.opener es null, muestra el código para que el usuario lo copie manualmente.
+        document.getElementById("message").innerText = "Authentication successful. Please copy the code below and paste it into the game:\n\n" + code;
+      }
     } else {
-        document.getElementById("message").innerText = "Error: No authentication code found.";
+      document.getElementById("message").innerText = "Error: No authentication code found.";
     }
-</script>
-
+  </script>
 </body>
 </html>
