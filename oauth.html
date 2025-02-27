@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Patreon OAuth Callback</title>
+</head>
+<body>
+  <h1>Patreon OAuth Callback</h1>
+  <p>Handling the OAuth response...</p>
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get("code");
+      if (code && window.opener && window.opener.PatreonOAuthCallback) {
+        window.opener.PatreonOAuthCallback(code);
+        document.body.innerHTML = "<h2>Success!</h2><p>You can now return to the game.</p>";
+      } else {
+        document.body.innerHTML = "<h2>Error</h2><p>No code parameter found or no opener.</p>";
+      }
+    })();
+  </script>
+</body>
+</html>
